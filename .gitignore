@@ -1,0 +1,43 @@
+# =============================================================================
+# Projet       : AGERIS MOBILE
+# Fichier      : .gitignore
+# Auteur       : Trackozor
+# Date         : 27/01/2026
+# Version      : 1.0.0
+# Statut       : Stable
+# Description  : Ignore les fichiers et dossiers inutiles dans le contrôle de version
+#                - Node modules
+#                - Fichiers temporaires
+#                - Dossiers natifs (iOS/Android)
+#                - Environnements sensibles
+# Historique   : 1.0.0 - Création initiale
+# =============================================================================
+
+# Dépendances
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Expo
+.expo/
+.expo-shared/
+
+# iOS / Android natif (si non eject)
+ios/
+android/
+*.keystore
+
+# Environnement local
+.env
+.env.local
+
+# Tests / coverage
+coverage/
+
+# IDE / Systèmes
+.vscode/
+.DS_Store
+Thumbs.db

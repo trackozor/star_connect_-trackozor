@@ -1,0 +1,36 @@
+{
+    "//": "=============================================================================",
+    "// Projet": "AGERIS MOBILE",
+    "// Fichier": ".eslintrc.json",
+    "// Auteur": "Trackozor",
+    "// Date": "27/01/2026",
+    "// Version": "1.0.0",
+    "// Statut": "Stable",
+    "// Description": "Configuration ESLint pour le linting JavaScript/JSX - règles basées sur eslint:recommended + React",
+    "// Historique": "1.0.0 - Création initiale",
+    "//": "=============================================================================",
+
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "jest": true
+    },
+
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
+
+    "parserOptions": {
+        "ecmaFeatures": {
+        "jsx": true
+        },
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    
+    "plugins": ["react"],
+    "rules": {
+        "react/react-in-jsx-scope": "off"
+    }
+}
