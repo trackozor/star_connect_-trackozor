@@ -1,0 +1,13 @@
+# =============================================================================
+# Projet       : AGERIS MOBILE
+# Fichier      : .gitattributes
+# Auteur       : Trackozor
+# Date         : 27/01/2026
+# Version      : 1.0.0
+# Statut       : Stable
+# Description  : Force tous les fichiers texte à utiliser LF, pour éviter
+#                les problèmes de fin de ligne multiplateforme (CRLF vs LF)
+# Historique   : 1.0.0 - Création initiale
+# =============================================================================
+
+* text=auto eol=lf
