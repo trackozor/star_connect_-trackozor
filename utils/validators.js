@@ -4,53 +4,141 @@
  * Fichier      : utils/validators.js
  * Auteur       : Trackozor
  * Date         : 27/01/2026
- * Version      : 1.1.0
+ * Version      : 1.2.0
  * Statut       : Stable
- * Description  : Fonctions de validation de données usuelles
- *                - Email, mot de passe, champs vides, numériques
+ * Description  : Fonctions de validation communes (emails, mots de passe, champs)
  * Historique   : 1.0.0 - Création initiale
- *                1.1.0 - Ajout JSDoc, robustesse améliorée
+ *                1.1.0 - Ajout JSDoc
+ *                1.2.0 - Meilleure lisibilité + extensibilité
  * =============================================================================
  */
 
-/**
- * Vérifie si une chaîne est un email valide
- * @function isEmailValid
+/**---------------------------------------------------------------------------------------
+ * Fonction : isValidEmail
+ * ----------------------------------------------------------------------------------------
+ * Valide une adresse email de manière stricte et professionnelle
+ *
+ * Critères :
+ * - Commence par une lettre ou chiffre
+ * - Pas de double point, ni de point au début ou à la fin
+ * - Autorise ".", "-", "_" dans la partie locale
+ * - Domaine valide (lettres, chiffres, tirets, point)
+ * - Extension entre 2 et 24 caractères
+ *
+ * @function isValidEmail
  * @param {string} email - Adresse email à tester
- * @returns {boolean} - true si l’email est valide
+ * @returns {boolean}
  */
-export function isEmailValid(email) {
-    const regex = /^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$/;
-    return regex.test(email);
+export function isValidEmail(email) {
+    const regex = /^(?!.*[.]{2})[a-zA-Z0-9](\.?[a-zA-Z0-9_\-])*@[a-zA-Z0-9\-]+\.[a-zA-Z]{2,24}$/;
+    return regex.test(email.trim());
 }
 
-/**
- * Vérifie si un mot de passe est fort
- * @function isPasswordStrong
+
+/**---------------------------------------------------------------------------------------
+ * Fonction : isValidPassword
+ *----------------------------------------------------------------------------------------
+ *  Vérifie si un mot de passe est suffisamment sécurisé
+ * Critères :
+ * - Minimum 16 caractères
+ * - Au moins 1 majuscule
+ * - Au moins 1 minuscule
+ * - Au moins 1 chiffre
+ * - Au moins 1 caractère spécial
+ * - Aucun espace
+ *
+ * @function isValidPassword
  * @param {string} password - Mot de passe à tester
- * @returns {boolean} - true si le mot de passe est robuste
+ * @returns {boolean}
  */
-export function isPasswordStrong(password) {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$/;
+export function isValidPassword(password) {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])[^\s]{16,}$/;
     return regex.test(password);
 }
 
-/**
- * Vérifie si une chaîne est vide ou null
- * @function isEmpty
- * @param {string} value - Chaîne à tester
- * @returns {boolean} - true si vide ou null
+/**---------------------------------------------------------------------------------------
+ * Fonction : isRequired
+ * ----------------------------------------------------------------------------------------
+ * Vérifie qu’un champ requis n’est pas vide
+ * @function isRequired
+ * @param {string} value
+ * @returns {boolean}
  */
-export function isEmpty(value) {
-    return value == null || value.trim() === '';
+export function isRequired(value) {
+    return typeof value === 'string' && value.trim().length > 0;
 }
 
-/**
- * Vérifie si une chaîne contient uniquement des chiffres
- * @function hasOnlyNumbers
- * @param {string} value - Texte à valider
- * @returns {boolean} - true si uniquement numérique
+/**---------------------------------------------------------------------------------------
+ * Fonction : isMatch
+ * ----------------------------------------------------------------------------------------
+ * Vérifie si deux valeurs sont égales (utile pour confirmer un mot de passe)
+ * @function isMatch
+ * @param {string} val1
+ * @param {string} val2
+ * @returns {boolean}
  */
-export function hasOnlyNumbers(value) {
-    return /^\\d+$/.test(value);
+export function isMatch(val1, val2) {
+    return val1 === val2;
 }
+
+
+/**---------------------------------------------------------------------------------------
+ * Fonction : validatePhoneNumber
+ * ----------------------------------------------------------------------------------------
+ * Valide et normalise un numéro de téléphone
+ * - Supporte FR par défaut (+33 / 0X XX XX XX XX)
+ * - Nettoie les caractères spéciaux
+ * - Convertit en format E.164 si valide
+ *
+ * @function validatePhoneNumber
+ * @param {string} input - Numéro brut saisi
+ * @returns {{ valid: boolean, message: string, normalized?: string }}
+ */
+export function validatePhoneNumber(input) {
+    if (!input) {
+        return { valid: false, message: 'Numéro vide' };
+    }
+
+    // Nettoyage des caractères non numériques
+    let cleaned = input.replace(/[\s().-]/g, '').replace(/^00/, '+');
+    const international = cleaned.startsWith('+');
+
+    if (international) {
+        const onlyDigits = cleaned.replace(/\D/g, '');
+        if (onlyDigits.length < 11 || onlyDigits.length > 15) {
+        return {
+            valid: false,
+            message: 'Numéro international invalide (11 à 15 chiffres attendus)',
+        };
+        }
+        if (!/^\+[1-9]\d{10,14}$/.test(cleaned)) {
+        return {
+            valid: false,
+            message: 'Format international non reconnu',
+        };
+        }
+
+        return {
+        valid: true,
+        normalized: cleaned,
+        message: 'Numéro international valide',
+        };
+    }
+
+    // Numéro national français : commence par 0 + 9 chiffres
+    if (/^0[1-9]\d{8}$/.test(cleaned)) {
+        const normalized = '+33' + cleaned.slice(1);
+        return {
+        valid: true,
+        normalized,
+        message: 'Numéro français valide',
+        };
+    }
+
+    return {
+        valid: false,
+        message: 'Format invalide : numéro inconnu ou trop court',
+    };
+}
+
+

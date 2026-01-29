@@ -4,13 +4,14 @@
  * Fichier      : utils/env.js
  * Auteur       : Trackozor
  * Date         : 27/01/2026
- * Version      : 1.1.0
+ * Version      : 1.2.0
  * Statut       : Stable
- * Description  : Gestion des environnements (dev/prod)
- *                - URL API dynamique
- *                - Aide à la détection de contexte
+ * Description  : Gestion centralisée des environnements (dev/prod)
+ *                - Détection automatique
+ *                - Accès sécurisé aux URLs
  * Historique   : 1.0.0 - Création initiale
- *                1.1.0 - Refactor + validation de structure
+ *                1.1.0 - Ajout validation et JSDoc
+ *                1.2.0 - Ajout fallback + fonction getEnv()
  * =============================================================================
  */
 
@@ -34,8 +35,14 @@ const currentEnv = __DEV__ ? 'dev' : 'prod';
  * Retourne l’URL de l’API selon l’environnement
  * @function getApiUrl
  * @returns {string} - URL de l’API
+ * @throws {Error} - Si l’environnement est inconnu
  */
-export const getApiUrl = () => ENV[currentEnv].apiUrl;
+export const getApiUrl = () => {
+  if (!ENV[currentEnv]) {
+    throw new Error(`Environnement inconnu : ${currentEnv}`);
+  }
+  return ENV[currentEnv].apiUrl;
+};
 
 /**
  * Vérifie si on est en environnement de développement
@@ -50,3 +57,10 @@ export const isDev = () => currentEnv === 'dev';
  * @returns {boolean}
  */
 export const isProd = () => currentEnv === 'prod';
+
+/**
+ * Retourne l’environnement courant ('dev' ou 'prod')
+ * @function getEnv
+ * @returns {string}
+ */
+export const getEnv = () => currentEnv;

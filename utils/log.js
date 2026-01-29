@@ -4,54 +4,78 @@
  * Fichier      : utils/log.js
  * Auteur       : Trackozor
  * Date         : 27/01/2026
- * Version      : 1.1.0
+ * Version      : 1.2.0
  * Statut       : Stable
- * Description  : Module de log unifié pour le debug et les traces système.
- *                - Standardise les messages dans la console
- *                - Facilite la lecture des logs pendant le développement
+ * Description  : Module de logging centralisé
+ *                - Active/désactive les logs selon l’environnement
+ *                - Fournit plusieurs niveaux : info, warn, error, debug
+ *                - Facilement extensible vers des services externes
  * Historique   : 1.0.0 - Création initiale
- *                1.1.0 - Documentation JSDoc complète
+ *                1.1.0 - Ajout JSDoc + options
+ *                1.2.0 - Préparation pour intégration services externes
  * =============================================================================
  */
 
-const LOG_PREFIX = '[AGERIS MOBILE]';
+import { isDev } from './env';
 
 /**
- * Log d'information simple
+ * Log une information générique
  * @function logInfo
- * @param {string} message - Message principal à afficher
- * @param {object} [data={}] - Données optionnelles à afficher
+ * @param {...any} args - Contenu à afficher
  */
-export function logInfo(message, data = {}) {
-    console.log(`ℹ️ ${LOG_PREFIX}`, message, data);
+export function logInfo(...args) {
+    if (isDev()) console.info('[INFO]', ...args);
 }
 
 /**
- * Log de succès
- * @function logSuccess
- * @param {string} message - Message de confirmation ou de succès
- * @param {object} [data={}] - Données optionnelles à afficher
- */
-export function logSuccess(message, data = {}) {
-    console.log(`✅ ${LOG_PREFIX}`, message, data);
-}
-
-/**
- * Log d’avertissement
+ * Log un avertissement
  * @function logWarn
- * @param {string} message - Message de précaution ou de doute
- * @param {object} [data={}] - Données associées
+ * @param {...any} args - Contenu à afficher
  */
-export function logWarn(message, data = {}) {
-    console.warn(`⚠️ ${LOG_PREFIX}`, message, data);
+export function logWarn(...args) {
+    if (isDev()) console.warn('[WARN]', ...args);
 }
 
 /**
- * Log d’erreur
+ * Log une erreur
  * @function logError
- * @param {string} message - Message d’erreur explicite
- * @param {object} [data={}] - Données liées à l’erreur
+ * @param {...any} args - Contenu à afficher
  */
-export function logError(message, data = {}) {
-    console.error(`❌ ${LOG_PREFIX}`, message, data);
+export function logError(...args) {
+    if (isDev()) console.error('[ERROR]', ...args);
+}
+
+/**
+ * Log de debug (désactivable en production)
+ * @function logDebug
+ * @param {...any} args - Contenu à afficher
+ */
+export function logDebug(...args) {
+    if (isDev()) console.debug('[DEBUG]', ...args);
+}
+
+/**
+ * Point d'entrée unique pour un logger custom futur (Sentry, etc.)
+ * @function logEvent
+ * @param {string} type - Type de log : 'info', 'warn', 'error', 'debug'
+ * @param {...any} args - Données à logguer
+ */
+export function logEvent(type = 'info', ...args) {
+    switch (type) {
+        case 'info':
+        logInfo(...args);
+        break;
+        case 'warn':
+        logWarn(...args);
+        break;
+        case 'error':
+        logError(...args);
+        break;
+        case 'debug':
+        logDebug(...args);
+        break;
+        default:
+        if (isDev()) console.log('[LOG]', ...args);
+    }
+
 }
