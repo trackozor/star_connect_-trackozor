@@ -14,4 +14,4 @@
 export { default as NavigationProvider } from './NavigationProvider';
 export { default as AppNavigator } from './AppNavigator';
 export { default as AuthNavigator } from './AuthNavigator';
-export { ROUTES } from './routes';
+export { ROUTES } from './ROUTES';

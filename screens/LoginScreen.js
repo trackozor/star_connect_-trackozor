@@ -3,122 +3,118 @@
  * Projet       : AGERIS MOBILE
  * Fichier      : screens/LoginScreen.js
  * Auteur       : Trackozor
- * Date         : 27/01/2026
- * Version      : 1.2.1
+ * Date         : 30/01/2026
+ * Version      : 1.2.0
  * Statut       : Stable
  * Description  : Écran de connexion utilisateur
+ *                - Logo
+ *                - Header "Connexion"
  *                - Champs email / mot de passe
- *                - Lien "Mot de passe oublié"
- *                - Bouton de connexion sans simulation
- *                - Header, Footer, AuthLayout
+ *                - Lien "Mot de passe oublié ?"
+ *                - Footer global
  * Historique   : 1.0.0 - Création initiale
  *                1.1.0 - Ajout JSDoc + refonte
- *                1.2.0 - Ajout lien réinitialisation + Header/Footer
- *                1.2.1 - Suppression de la simulation de connexion
+ *                1.2.0 - Intégration Logo + Footer + lien navigation
  * =============================================================================
  */
 
 import React, { useState } from 'react';
-import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
 import { AuthLayout } from '../layouts';
-import { TextField, Button, Header, Footer } from '../components';
+import { Logo, Header, TextField, Button, Footer } from '../components';
 import { theme } from '../theme';
 import { ROUTES } from '../navigation';
 
-
-// =============================================================================
-// COMPOSANT : LoginScreen
-// =============================================================================
-
 /**
- * Interface d'authentification utilisateur.
- * @component
- * @param {Object} props
- * @param {object} props.navigation - Navigation React Navigation (injection native)
+ * @component LoginScreen
+ * @description Interface d'authentification utilisateur
  * @returns {JSX.Element}
  */
-export default function LoginScreen({ navigation }) {
-  // ===========================================================================
-  // ÉTATS LOCAUX
-  // ===========================================================================
+export default function LoginScreen() {
+  const navigation = useNavigation();
 
+  // États contrôlés
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // ===========================================================================
-  // HANDLERS
-  // ===========================================================================
-
   /**
-   * Gère la tentative de connexion utilisateur.
-   * À connecter à une API réelle plus tard.
+   * @function handleLogin
+   * @description Simulation connexion
    */
   const handleLogin = () => {
-    console.log('Tentative de connexion :', { email, password });
-  };
+    setLoading(true);
 
-  /**
-   * Redirige vers l’écran "Mot de passe oublié".
-   */
-  const handleForgotPassword = () => {
-    navigation?.navigate(ROUTES.FORGOT_PASSWORD);
+    setTimeout(() => {
+      setLoading(false);
+      console.log('✅ Connexion réussie :', email);
+      // TODO : redirection ou stockage token
+    }, 1200);
   };
-
-  // ===========================================================================
-  // RENDU
-  // ===========================================================================
 
   return (
     <AuthLayout>
-      <Header title="Connexion" />
+      <View style={styles.container}>
+        {/* Logo */}
+        <Logo size={80} />
 
-      <TextField
-        label="Adresse email"
-        value={email}
-        onChangeText={setEmail}
-        placeholder="exemple@ageris.fr"
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
+        {/* Titre principal */}
+        <Header title="Connexion" />
 
-      <TextField
-        label="Mot de passe"
-        value={password}
-        onChangeText={setPassword}
-        placeholder="••••••••"
-        secureTextEntry
-      />
+        {/* Champ email */}
+        <TextField
+          label="Adresse email"
+          value={email}
+          onChangeText={setEmail}
+          placeholder="exemple@ageris.fr"
+        />
 
-      <TouchableOpacity onPress={handleForgotPassword} style={styles.forgot}>
-        <Text style={styles.forgotText}>Mot de passe oublié ?</Text>
-      </TouchableOpacity>
+        {/* Champ mot de passe */}
+        <TextField
+          label="Mot de passe"
+          value={password}
+          onChangeText={setPassword}
+          placeholder="••••••••"
+          secureTextEntry
+        />
 
-      <Button
-        label="Se connecter"
-        onPress={handleLogin}
-        loading={loading}
-        disabled={!email || !password}
-      />
+        {/* Lien mot de passe oublié */}
+        <TouchableOpacity
+          onPress={() => navigation.navigate(ROUTES.FORGOT_PASSWORD)}
+          style={styles.forgotContainer}
+        >
+          <Text style={styles.forgotText}>Mot de passe oublié ?</Text>
+        </TouchableOpacity>
 
-      <Footer />
+        {/* Bouton connexion */}
+        <Button label="Se connecter" onPress={handleLogin} loading={loading} />
+
+        {/* Footer global */}
+        <Footer />
+      </View>
     </AuthLayout>
   );
 }
-
 
 // =============================================================================
 // STYLES
 // =============================================================================
 
 const styles = StyleSheet.create({
-  forgot: {
-    alignSelf: 'flex-end',
-    marginBottom: theme.spacing.sm
+  container: {
+    width: '100%',
+    paddingHorizontal: theme.spacing.lg,
+    alignItems: 'stretch'
+  },
+  forgotContainer: {
+    alignItems: 'flex-end',
+    marginTop: theme.spacing.sm,
+    marginBottom: theme.spacing.md
   },
   forgotText: {
     color: theme.colors.link,
-    fontSize: theme.typography.fontSize.sm,
-    fontWeight: theme.typography.fontWeight.medium
+    fontSize: theme.typography.fontSize.sm
   }
 });

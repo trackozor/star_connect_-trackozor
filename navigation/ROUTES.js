@@ -4,11 +4,11 @@
  */
 
 export const ROUTES = {
-  LOGIN: 'LoginScreen',
-  REGISTER: 'RegisterScreen',
-  FORGOT_PASSWORD: 'ForgotPasswordScreen',
-  HOME: 'HomeScreen',
-  PROFILE: 'ProfileScreen',
-  SETTINGS: 'SettingsScreen',
-  SPLASH: 'SplashScreen'
+  LOGIN: 'Login',
+  REGISTER: 'Register',
+  FORGOT_PASSWORD: 'ForgotPassword',
+  HOME: 'Home',
+  PROFILE: 'Profile',
+  SETTINGS: 'Settings',
+  SPLASH: 'Splash'
 };

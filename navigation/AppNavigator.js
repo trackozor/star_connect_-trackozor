@@ -15,7 +15,7 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AuthNavigator from './AuthNavigator';
 import HomeScreen from '../screens/HomeScreen';
-import { ROUTES } from './routes';
+import { ROUTES } from './ROUTES';
 
 const Stack = createNativeStackNavigator();
 
