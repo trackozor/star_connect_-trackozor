@@ -1,43 +1,44 @@
-# 📁 components
+# 📦 Dossier `components/`
 
-Ce dossier contient tous les **composants UI réutilisables** de l’application AGERIS MOBILE.
-
----
-
-## 🧩 Structure & Règles
-
-Chaque composant respecte les conventions suivantes :
-
-- **Nom de fichier** : `PascalCase` (ex. `Button.js`, `Card.js`)
-- **Documentation** : JSDoc dans chaque fichier
-- **Style** : intégré via `StyleSheet.create` et variables du thème (`/theme`)
-- **Responsabilité unique** : un composant = une fonction bien définie
-- **Tests à venir** : unitaire avec `jest` et `@testing-library/react-native`
+Ce dossier contient **tous les composants UI réutilisables** de l'application AGERIS MOBILE.
 
 ---
 
-## 📦 Composants disponibles
+## Structure
 
-| Fichier            | Rôle                                            |
-|--------------------|-------------------------------------------------|
-| `Avatar.js`        | Affichage de l'utilisateur (image ou initiales) |
-| `Badge.js`         | Tag visuel (ex. statut)                         |
-| `Button.js`        | Bouton personnalisé et stylisé                  |
-| `Card.js`          | Conteneur avec ombre et padding                 |
-| `ErrorBoundary.js` | Catch des erreurs critiques                     |
-| `Footer.js`        | Pied de page réutilisable                       |
-| `Header.js`        | En-tête commun à plusieurs vues                 |
-| `Loader.js`        | Spinner animé                                   |
-| `Logo.js`          | Logo principal de l'application                 |
-| `Modal.js`         | Fenêtre modale universelle                      |
-| `Separator.js`     | Ligne horizontale de séparation                 |
-| `StatusBar.js`     | Configuration de la barre de statut             |
-| `TextField.js`     | Champ de saisie stylisé                         |
+- Chaque fichier est un composant fonctionnel React Native.
+- Tous les composants sont documentés avec `JSDoc`.
+- Les styles utilisent exclusivement le design system depuis `theme/`.
+- Les noms de fichiers sont en `PascalCase.js`.
+- Chaque composant a une en-tête standardisée et des séparateurs internes.
 
 ---
 
-## ✨ Bonnes pratiques
+## Composants inclus
 
-- Garder les composants **purs et présentatifs**
-- Utiliser le `theme` pour toutes les couleurs, paddings, tailles
-- Ajouter un `README` dans les sous-dossiers si composants groupés
+| Composant         | Description                                      |
+|-------------------|--------------------------------------------------|
+| `Avatar`          | Affiche une photo utilisateur ou ses initiales   |
+| `Badge`           | Badge coloré (statut, tag, etc.)                 |
+| `Button`          | Bouton principal (texte, loading, disabled)      |
+| `ButtonIcon`      | Bouton avec une icône uniquement                 |
+| `Card`            | Conteneur encadré avec fond et ombre             |
+| `EmptyState`      | État vide illustré avec image et message         |
+| `Footer`          | Pied de page avec informations                   |
+| `Header`          | Bandeau supérieur avec titre                     |
+| `Loader`          | Indicateur de chargement central                 |
+| `Logo`            | Logo principal de l’application                  |
+| `Modal`           | Modale personnalisée avec contenu                |
+| `DialogConfirm`   | Fenêtre de confirmation (confirmer / annuler)    |
+| `FormFieldWrapper`| Enveloppe de champ de formulaire                 |
+| `TextField`       | Champ texte stylisé et contrôlé                  |
+| `Checkbox`        | Case à cocher avec label                         |
+| `Switch`          | Interrupteur booléen                             |
+| `ErrorBoundary`   | Sécurité : catch les erreurs React               |
+
+---
+
+## Convention d’import
+
+```js
+import { Button, TextField, Modal } from '../components';

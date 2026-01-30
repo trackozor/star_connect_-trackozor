@@ -4,11 +4,12 @@
  * Fichier      : components/Avatar.js
  * Auteur       : Trackozor
  * Date         : 28/01/2026
- * Version      : 1.1.0
+ * Version      : 1.1.1
  * Statut       : Stable
- * Description  : Composant Avatar pour utilisateur (photo ou initiales fallback)
+ * Description  : Composant Avatar utilisateur (photo ou initiales en fallback)
  * Historique   : 1.0.0 - Version initiale
- *                1.1.0 - Refactor complet avec JS Doc et commentaires
+ *                1.1.0 - Refactor avec JSDoc
+ *                1.1.1 - Normalisation style + accessibilité + testID
  * =============================================================================
  */
 
@@ -17,34 +18,50 @@ import { Image, Text, View, StyleSheet } from 'react-native';
 import theme from '../theme';
 
 /**
- * Affiche un avatar avec image ou initiales
+ * Composant d'avatar utilisateur.
+ * Affiche soit une image, soit les initiales en fallback.
  *
  * @component
- * @param {Object} props
- * @param {string} props.uri - URL de la photo (optionnel)
- * @param {string} props.initials - Initiales à afficher si pas d'image
- * @param {number} [props.size=48] - Taille de l'avatar
+ * @param {Object} props - Props du composant Avatar
+ * @param {string} [props.uri] - URL de l'image utilisateur (optionnelle)
+ * @param {string} props.initials - Initiales à afficher si l'image est absente
+ * @param {number} [props.size=48] - Taille (largeur/hauteur) de l'avatar
+ * @param {string} [props.accessibilityLabel] - Label pour lecteur d'écran
+ * @param {string} [props.testID] - ID pour tests automatisés
+ * @returns {JSX.Element}
  */
-export default function Avatar({ uri, initials, size = 48 }) {
+export default function Avatar({
+  uri,
+  initials,
+  size = 48,
+  accessibilityLabel,
+  testID
+}) {
+  const radius = size / 2;
+
   return (
-    <View style={[styles.avatar, {
-      width: size,
-      height: size,
-      borderRadius: size / 2
-    }]}>
-      {/* Affiche l'image si disponible, sinon les initiales */}
+    <View
+      style={[styles.avatar, { width: size, height: size, borderRadius: radius }]}
+      accessible
+      accessibilityRole="image"
+      accessibilityLabel={accessibilityLabel || (uri ? 'Avatar utilisateur' : `Initiales : ${initials}`)}
+      testID={testID || 'Avatar'}
+    >
       {uri ? (
         <Image
           source={{ uri }}
-          style={{ width: size, height: size, borderRadius: size / 2 }}
+          style={{ width: size, height: size, borderRadius: radius }}
         />
       ) : (
-        <Text style={styles.initials}>{initials}</Text>
+        <Text style={[styles.initials, { fontSize: size / 2 }]}>{initials}</Text>
       )}
     </View>
   );
 }
 
+// ============================================================================
+//  Styles
+// ============================================================================
 const styles = StyleSheet.create({
   avatar: {
     backgroundColor: theme.colors.secondary,
@@ -54,7 +71,7 @@ const styles = StyleSheet.create({
   },
   initials: {
     color: theme.colors.onSecondary,
-    fontSize: theme.typography.title,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    textTransform: 'uppercase'
   }
 });

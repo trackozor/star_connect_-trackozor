@@ -1,45 +1,61 @@
 /**
  * =============================================================================
  * Projet       : AGERIS MOBILE
- * Fichier      : layouts/AppLayout.js
+ * Fichier      : layout/AppLayout.js
  * Auteur       : Trackozor
- * Date         : 27/01/2026
- * Version      : 1.0.0
+ * Date         : 30/01/2026
+ * Version      : 1.1.0
  * Statut       : Stable
- * Description  : Layout principal de l’application
- *                - Intègre la structure globale (header/footer si nécessaire)
- *                - Fournit un fond, padding et scroll de base
- * Historique   : 1.0.0 - Création initiale
+ * Description  : Layout principal avec SafeArea, padding dynamique et StatusBar
+ * Historique   : 1.0.0 - Version initiale
+ *                1.1.0 - Ajout props noPadding et backgroundColor
  * =============================================================================
  */
 
 import React from 'react';
-import { View, StyleSheet, SafeAreaView } from 'react-native';
-import { theme } from '../theme';
+import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
+import theme from '../theme';
 
 /**
- * @component AppLayout
+ * Structure globale avec gestion du SafeArea et de la couleur de fond.
+ *
+ * @component
  * @param {Object} props
- * @param {React.ReactNode} props.children - Contenu principal à afficher
+ * @param {React.ReactNode} props.children - Contenu à afficher
+ * @param {boolean} [props.noPadding=false] - Supprime le padding interne
+ * @param {string} [props.backgroundColor] - Couleur de fond personnalisée
  * @returns {JSX.Element}
  */
-const AppLayout = ({ children }) => {
+export default function AppLayout({ children, noPadding = false, backgroundColor }) {
   return (
-    <SafeAreaView style={styles.safe}>
-      <View style={styles.container}>{children}</View>
+    <SafeAreaView
+      style={[
+        styles.safeArea,
+        { backgroundColor: backgroundColor || theme.colors.background }
+      ]}
+      testID="AppLayout"
+    >
+      <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
+      <View style={[styles.container, noPadding && styles.noPadding]}>
+        {children}
+      </View>
     </SafeAreaView>
   );
-};
+}
 
+// ============================================================================
+// Styles
+// ============================================================================
 const styles = StyleSheet.create({
-  safe: {
-    flex: 1,
-    backgroundColor: theme.colors.background
+  safeArea: {
+    flex: 1
   },
   container: {
     flex: 1,
     padding: theme.spacing.md
+  },
+  noPadding: {
+    padding: 0
   }
 });
 
-export default AppLayout;

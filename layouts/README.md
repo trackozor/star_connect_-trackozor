@@ -1,28 +1,39 @@
-# 📁 layouts
+# Dossier `layout/`
 
-Ce dossier contient les **structures de mise en page réutilisables** (layouts) permettant de normaliser l'affichage global de l'application selon les contextes (authentification, pages principales, etc.).
+Ce dossier contient les **layouts d'écran** réutilisables pour structurer les différentes vues de l'application AGERIS MOBILE.
 
-## 📂 Rôle du dossier
+---
 
-Les layouts agissent comme des wrappers autour des écrans (`screens/`) pour intégrer les éléments récurrents comme :
+## Composants inclus
 
-- le header,
-- le footer,
-- les paddings globaux,
-- les scroll containers,
-- ou encore les protections d’accès (auth).
+| Fichier                      | Description                                                                  |
+|------------------------------|----------------------------------------------------------------------------- |
+| `AppLayout.js`               | Layout principal avec SafeArea, StatusBar, fond personnalisable              |
+| `AuthLayout.js`              | Layout spécial pour écrans d’authentification, avec gestion du clavier       |
+| `PageWrapper.js`             | Wrapper scrollable avec padding optionnel                                    |
+| `KeyboardAvoidingWrapper.js` | Composant utilitaire pour éviter le clavier sur les écrans formulaires       |
+| `CenteredScreen.js`          | Mise en page centrée verticalement pour chargement, vide, messages           |
+| `index.js`                   | Point d’export centralisé                                                    |
 
-## 📋 Détail des fichiers
+---
 
-| Fichier           | Rôle                                                             |
-|-------------------|------------------------------------------------------------------|
-| `AppLayout.js`    | Mise en page globale standard (utilisée après connexion)         |
-| `AuthLayout.js`   | Layout dédié aux écrans d’authentification (login, register...)  |
-| `PageWrapper.js`  | Composant enveloppant une page avec scroll, marges, padding…     |
-| `index.js`        | Point d'entrée exportant tous les layouts                        |
+## Convention
 
-## ✅ Bonnes pratiques
+- Tous les layouts utilisent `theme/` pour les couleurs, paddings, fonds.
+- Les layouts peuvent être composés entre eux selon les écrans (`PageWrapper` dans `AuthLayout` par exemple).
+- Tous les composants exposent un `testID` pour testabilité.
 
-- Les layouts **ne doivent pas contenir de logique métier**.
-- Les layouts **utilisent le thème** (`theme/`) pour respecter la cohérence graphique.
-- Chaque layout **doit être documenté** et maintenu **testable**.
+---
+
+## Exemple d'utilisation
+
+```jsx
+import { AppLayout } from '../layout';
+
+export default function ProfileScreen() {
+  return (
+    <AppLayout>
+      <Text>Bienvenue sur votre profil</Text>
+    </AppLayout>
+  );
+}

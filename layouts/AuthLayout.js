@@ -1,47 +1,62 @@
 /**
  * =============================================================================
  * Projet       : AGERIS MOBILE
- * Fichier      : layouts/AuthLayout.js
+ * Fichier      : layout/AuthLayout.js
  * Auteur       : Trackozor
- * Date         : 27/01/2026
- * Version      : 1.0.0
+ * Date         : 30/01/2026
+ * Version      : 1.1.0
  * Statut       : Stable
- * Description  : Layout pour les écrans d’authentification (login/register)
+ * Description  : Layout dédié aux écrans d'authentification avec gestion du clavier
  * Historique   : 1.0.0 - Création initiale
+ *                1.1.0 - Ajout SafeArea et nettoyage du style
  * =============================================================================
  */
 
 import React from 'react';
-import { View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
-import { theme } from '../theme';
+import {
+  SafeAreaView,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  View
+} from 'react-native';
+import theme from '../theme';
 
 /**
- * @component AuthLayout
+ * Layout spécifique aux écrans de connexion/inscription.
+ *
+ * @component
  * @param {Object} props
- * @param {React.ReactNode} props.children - Formulaires d’authentification
+ * @param {React.ReactNode} props.children - Contenu de la page
  * @returns {JSX.Element}
  */
-const AuthLayout = ({ children }) => {
+export default function AuthLayout({ children }) {
   return (
-    <KeyboardAvoidingView
-      style={styles.wrapper}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-    >
-      <View style={styles.container}>{children}</View>
-    </KeyboardAvoidingView>
+    <SafeAreaView style={styles.safeArea} testID="AuthLayout">
+      <KeyboardAvoidingView
+        style={styles.flex}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      >
+        <View style={styles.container}>{children}</View>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
-};
+}
 
+// ============================================================================
+// Styles
+// ============================================================================
 const styles = StyleSheet.create({
-  wrapper: {
+  safeArea: {
     flex: 1,
-    backgroundColor: theme.colors.surface
+    backgroundColor: theme.colors.backgroundAlt
+  },
+  flex: {
+    flex: 1
   },
   container: {
     flex: 1,
     justifyContent: 'center',
-    padding: theme.spacing.lg
+    padding: theme.spacing.md
   }
 });
-
-export default AuthLayout;
