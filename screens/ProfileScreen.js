@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import AppLayout from '../layout/AppLayout';
+import AppLayout from '../layouts/AppLayout';
 
 /**
  * @component ProfileScreen

@@ -22,7 +22,7 @@ import {
   StyleSheet,
   Platform,
 } from 'react-native';
-import theme from '../theme';
+import { theme } from '../theme';
 
 /**
  * Composant Modal réutilisable pour affichage de contenu contextuel.

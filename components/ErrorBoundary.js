@@ -14,7 +14,7 @@
 
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import theme from '../theme';
+import { theme } from '../theme';
 
 /**
  * Composant de sécurité qui capture les erreurs de rendu.

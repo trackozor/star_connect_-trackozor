@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import theme from '../theme';
+import { theme } from '../theme';
 
 /**
  * StatusBar customisée avec les couleurs du thème.

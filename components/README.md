@@ -1,4 +1,4 @@
-# 📦 Dossier `components/`
+# Dossier `components/`
 
 Ce dossier contient **tous les composants UI réutilisables** de l'application AGERIS MOBILE.
 

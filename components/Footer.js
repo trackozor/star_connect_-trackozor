@@ -14,7 +14,7 @@
 
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import theme from '../theme';
+import { theme } from '../theme';
 
 /**
  * Composant Footer : affiche un pied de page avec mention légale et version.

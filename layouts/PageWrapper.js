@@ -14,7 +14,7 @@
 
 import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
-import theme from '../theme';
+import { theme } from '../theme';
 
 /**
  * Wrapper scrollable pour affichage de contenu avec ou sans padding.

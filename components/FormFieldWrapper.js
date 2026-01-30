@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import theme from '../theme';
+import { theme } from '../theme';
 
 /**
  * Composant utilitaire pour afficher un label, un champ et un message d'erreur.

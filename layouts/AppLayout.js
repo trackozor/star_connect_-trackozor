@@ -14,7 +14,7 @@
 
 import React from 'react';
 import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
-import theme from '../theme';
+import { theme } from '../theme';
 
 /**
  * Structure globale avec gestion du SafeArea et de la couleur de fond.

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import theme from '../theme';
+import { theme } from '../theme';
 
 /**
  * Séparateur horizontal visuel entre blocs.
@@ -28,6 +28,6 @@ const styles = StyleSheet.create({
   separator: {
     height: 1,
     backgroundColor: theme.colors.border,
-    marginVertical: theme.spacing.md
-  }
+    marginVertical: theme.spacing.md,
+  },
 });

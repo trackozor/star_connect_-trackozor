@@ -4,62 +4,84 @@
  * Fichier      : screens/LoginScreen.js
  * Auteur       : Trackozor
  * Date         : 27/01/2026
- * Version      : 1.1.0
+ * Version      : 1.2.1
  * Statut       : Stable
  * Description  : Écran de connexion utilisateur
- *                - Champ email / mot de passe
- *                - Bouton de connexion avec chargement
- *                - Structure responsive avec AuthLayout
+ *                - Champs email / mot de passe
+ *                - Lien "Mot de passe oublié"
+ *                - Bouton de connexion sans simulation
+ *                - Header, Footer, AuthLayout
  * Historique   : 1.0.0 - Création initiale
- *                1.1.0 - Ajout JSDoc + refonte pro
+ *                1.1.0 - Ajout JSDoc + refonte
+ *                1.2.0 - Ajout lien réinitialisation + Header/Footer
+ *                1.2.1 - Suppression de la simulation de connexion
  * =============================================================================
  */
 
 import React, { useState } from 'react';
-import { Text, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { AuthLayout } from '../layouts';
-import { TextField, Button } from '../components';
+import { TextField, Button, Header, Footer } from '../components';
 import { theme } from '../theme';
+import { ROUTES } from '../navigation';
+
+
+// =============================================================================
+// COMPOSANT : LoginScreen
+// =============================================================================
 
 /**
- * @component LoginScreen
- * @description Interface d'authentification utilisateur
+ * Interface d'authentification utilisateur.
+ * @component
+ * @param {Object} props
+ * @param {object} props.navigation - Navigation React Navigation (injection native)
  * @returns {JSX.Element}
  */
-export default function LoginScreen() {
-  // États contrôlés
+export default function LoginScreen({ navigation }) {
+  // ===========================================================================
+  // ÉTATS LOCAUX
+  // ===========================================================================
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // ===========================================================================
+  // HANDLERS
+  // ===========================================================================
+
   /**
-   * Simule la connexion utilisateur
-   * @function handleLogin
+   * Gère la tentative de connexion utilisateur.
+   * À connecter à une API réelle plus tard.
    */
   const handleLogin = () => {
-    setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-      console.log('✅ Utilisateur connecté :', email);
-      // TODO : redirection ou stockage token
-    }, 1200);
+    console.log('Tentative de connexion :', { email, password });
   };
+
+  /**
+   * Redirige vers l’écran "Mot de passe oublié".
+   */
+  const handleForgotPassword = () => {
+    navigation?.navigate(ROUTES.FORGOT_PASSWORD);
+  };
+
+  // ===========================================================================
+  // RENDU
+  // ===========================================================================
 
   return (
     <AuthLayout>
-      {/* Titre de la page */}
-      <Text style={styles.title}>Connexion</Text>
+      <Header title="Connexion" />
 
-      {/* Champ email */}
       <TextField
         label="Adresse email"
         value={email}
         onChangeText={setEmail}
         placeholder="exemple@ageris.fr"
+        keyboardType="email-address"
+        autoCapitalize="none"
       />
 
-      {/* Champ mot de passe */}
       <TextField
         label="Mot de passe"
         value={password}
@@ -68,17 +90,35 @@ export default function LoginScreen() {
         secureTextEntry
       />
 
-      {/* Bouton de connexion */}
-      <Button label="Se connecter" onPress={handleLogin} loading={loading} />
+      <TouchableOpacity onPress={handleForgotPassword} style={styles.forgot}>
+        <Text style={styles.forgotText}>Mot de passe oublié ?</Text>
+      </TouchableOpacity>
+
+      <Button
+        label="Se connecter"
+        onPress={handleLogin}
+        loading={loading}
+        disabled={!email || !password}
+      />
+
+      <Footer />
     </AuthLayout>
   );
 }
 
+
+// =============================================================================
+// STYLES
+// =============================================================================
+
 const styles = StyleSheet.create({
-  title: {
-    fontSize: theme.typography.fontSize.xl,
-    fontWeight: theme.typography.fontWeight.bold,
-    color: theme.colors.primary,
-    marginBottom: theme.spacing.md
+  forgot: {
+    alignSelf: 'flex-end',
+    marginBottom: theme.spacing.sm
+  },
+  forgotText: {
+    color: theme.colors.link,
+    fontSize: theme.typography.fontSize.sm,
+    fontWeight: theme.typography.fontWeight.medium
   }
 });

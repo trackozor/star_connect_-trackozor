@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
-import theme from '../theme';
+import { theme } from '../theme';
 
 /**
  * Composant champ de texte (input) accessible et stylé.

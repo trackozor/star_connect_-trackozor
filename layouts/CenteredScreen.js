@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import theme from '../theme';
+import { theme } from '../theme';
 
 /**
  * Écran centré, idéal pour loading, empty state ou messages simples.

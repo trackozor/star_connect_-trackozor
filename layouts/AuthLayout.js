@@ -20,7 +20,7 @@ import {
   StyleSheet,
   View
 } from 'react-native';
-import theme from '../theme';
+import { theme } from '../theme';
 
 /**
  * Layout spécifique aux écrans de connexion/inscription.
